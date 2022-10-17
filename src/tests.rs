@@ -1,9 +1,6 @@
-use super::{encode, decode};
+use super::{decode, encode};
 
-const ENCODER_TEST_CASES: &[&[u8]] = &[
-    &[0, 0, 0],
-    &[255, 239],
-];
+const ENCODER_TEST_CASES: &[&[u8]] = &[&[], &[0, 0, 0], &[255, 239]];
 
 fn encoder_roundtrips(buf: &[u8]) {
     assert_eq!(&decode(&encode(buf)).unwrap(), buf);

@@ -9,5 +9,10 @@ edition = "2021"
 
 
 [dev-dependencies]
+criterion = "0.4"
 fuzzcheck = "0.12"
 proptest = "1"
+
+[[bench]]
+name = "encode"
+harness = false

@@ -52,18 +52,23 @@ pub fn encode(src: &[u8]) -> String {
             // If we have enough bits left, emit a second symbol.
             if bits_left >= 6 {
                 let second_six = (byte >> (8 - bits_left)) & MASK_6_BITS;
-                let (i, n) = encode_symbol(second_six);
+                let (symbol, n) = encode_symbol(second_six);
 
-                out.push(char::from(ENCODE_TABLE[i as usize]));
+                out.push(symbol);
                 bits_left -= n;
             }
 
             // Stash our remaining bits for the next byte.
             num_trailing = bits_left;
-            trailing_bits = if num_trailing > 0 { byte >> (8 - bits_left) } else { 0 };
+            trailing_bits = if num_trailing > 0 {
+                byte >> (8 - bits_left)
+            } else {
+                0
+            };
         }
         if num_trailing > 0 {
-            out.push(char::from(ENCODE_TABLE[trailing_bits as usize]));
+            let (symbol, _) = encode_symbol(trailing_bits);
+            out.push(symbol);
         }
     }
 
@@ -111,7 +116,7 @@ pub fn decode(src: &str) -> Result<Vec<u8>, DecodeError> {
         let mut buf = 0u8;
         let mut buf_size = 0;
 
-        for (i, &symbol) in bytes.into_iter().enumerate() {
+        for (i, &symbol) in bytes.iter().enumerate() {
             let (bits, num_bits) = decode_symbol(i, symbol)?;
 
             // Emit an input byte if we've filled a full byte...
@@ -127,9 +132,6 @@ pub fn decode(src: &str) -> Result<Vec<u8>, DecodeError> {
             }
         }
         let (bits, _) = decode_symbol(src.len() - 1, last)?;
-
-        // TODO: Prove this assertion.
-        assert!(bits.leading_zeros() >= buf_size as u32);
         out.push(bits << buf_size | buf);
     }
     Ok(out)
