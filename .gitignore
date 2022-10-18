@@ -17,3 +17,5 @@ Cargo.lock
 
 /fuzz
 /proptest-regressions
+
+.DS_Store

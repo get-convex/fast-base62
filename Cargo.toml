@@ -9,6 +9,7 @@ edition = "2021"
 
 
 [dev-dependencies]
+base-62 = "0.1.1"
 criterion = "0.4"
 fuzzcheck = "0.12"
 proptest = "1"

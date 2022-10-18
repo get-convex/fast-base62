@@ -31,7 +31,7 @@ pub fn encode(src: &[u8]) -> String {
     let mut out = String::new();
 
     if !src.is_empty() {
-        // Reserve space for `ceil(src.len() * 6 / 8)` bytes (in case we emit exclusively five bit
+        // Reserve space for `ceil(src.len() * 8 / 5)` bytes (in case we emit exclusively five bit
         // symbols).
         out = String::with_capacity((src.len() * 8 - 1) / 5 + 1);
 
