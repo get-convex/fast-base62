@@ -13,6 +13,7 @@ base-62 = "0.1.1"
 criterion = "0.4"
 fuzzcheck = "0.12"
 proptest = "1"
+rand = "0.8"
 
 [[bench]]
 name = "encode"
